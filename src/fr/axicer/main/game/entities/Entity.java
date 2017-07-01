@@ -3,10 +3,10 @@ package fr.axicer.main.game.entities;
 import org.lwjgl.util.vector.Vector2f;
 
 import fr.axicer.main.game.World;
-import fr.axicer.main.math.Vector3f;
+import fr.axicer.main.util.datas.Vector3D;
 
 public abstract class Entity {
-	public Vector3f position;
+	public Vector3D position;
 	public Vector2f rotation;
 	public World world;
 	public boolean gravity = true;
@@ -14,19 +14,22 @@ public abstract class Entity {
 	public boolean grounded = false;
 	public boolean collision = true;
 	
-	public Entity(Vector3f position) {
-		this.position = position;
-		this.rotation = new Vector2f();
-	}
 	
-	public Entity(Vector3f position, Vector2f rotation) {
+	public Entity(World world) {
+		this(world, new Vector3D(), new Vector2f());
+	}
+	public Entity(World world, Vector3D position) {
+		this(world, position, new Vector2f());
+	}
+	public Entity(World world, Vector3D position, Vector2f rotation) {
 		this.position = position;
 		this.rotation = rotation;
+		this.world = world;
 	}
 	
-	public void move(float xa, float ya, float za, Entity e){
+	public void move(float xa, float ya, float za){
 		if(gravity){
-			gravityFactor += World.GRAVITY *0.01f;
+			gravityFactor += World.GRAVITY ;
 			if(grounded){
 				gravityFactor = 0;
 			}
@@ -96,8 +99,8 @@ public abstract class Entity {
 		
 		return false;
 	}
-	public Vector3f getDirection(){
-		Vector3f r = new Vector3f();
+	public Vector3D getDirection(){
+		Vector3D r = new Vector3D();
 		
 		Vector2f rot = new Vector2f(this.rotation);
 		

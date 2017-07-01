@@ -1,4 +1,4 @@
-package fr.axicer.main.render;
+package fr.axicer.main.util.render;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_LINEAR;
@@ -38,7 +38,7 @@ import javax.imageio.ImageIO;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL12;
 
-import fr.axicer.main.math.Vector3f;
+import fr.axicer.main.util.datas.Vector3D;
 
 public class SkyBox {
 	private int VBO;
@@ -103,10 +103,10 @@ public class SkyBox {
 		return new TextureData(glGenTextures(), width, height, buffer);
 	}
 	
-	public void render(Vector3f pos){
+	public void render(Vector3D pos){
 		Shader.SKYBOX.bind();
 		glPushMatrix();
-		glTranslatef(pos.x, pos.y+1.75f, pos.z);
+		glTranslatef((float)pos.x, (float)pos.y+1.75f, (float)pos.z);
 		
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 		

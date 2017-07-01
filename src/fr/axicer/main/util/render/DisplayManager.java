@@ -1,4 +1,4 @@
-package fr.axicer.main.render;
+package fr.axicer.main.util.render;
 
 import static org.lwjgl.opengl.GL11.*;
 

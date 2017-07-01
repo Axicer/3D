@@ -1,10 +1,10 @@
-package fr.axicer.main.game.tree;
+package fr.axicer.main.game.generation;
 
 import java.util.Random;
 
 import fr.axicer.main.game.World;
-import fr.axicer.main.game.block.LogBlock;
-import fr.axicer.main.game.block.OakLeavesBlock;
+import fr.axicer.main.game.block.Block;
+import fr.axicer.main.game.block.BlockType;
 
 public class OakTree {
 	
@@ -16,7 +16,7 @@ public class OakTree {
 		int leavediameter = new Random().nextInt(5)+5;
 		
 		for(int i = 0 ; i < LOG_HEIGHT ; i++){
-			world.addBlock(x, y + i, z, new LogBlock());
+			world.addBlock(new Block(BlockType.LOG), x, y + i, z);
 		}
 		
 		for(int i = 0 ; i < leavediameter ; i++){
@@ -30,7 +30,7 @@ public class OakTree {
 					double l = Math.sqrt(ii*ii + jj*jj + kk*kk);
 					
 					if(l < (double)leavediameter/2){
-						world.addBlock(x+(int)ii,y+(int)jj+LOG_HEIGHT,z+(int)kk, new OakLeavesBlock());
+						world.addBlock(new Block(BlockType.LEAVES), x+(int)ii,y+(int)jj+LOG_HEIGHT,z+(int)kk);
 					}
 				}
 			}
