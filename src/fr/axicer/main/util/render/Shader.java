@@ -12,15 +12,18 @@ import fr.axicer.main.util.datas.Vector3D;
 
 public class Shader {
 	
-	public static final Shader CHUNK = new Shader("chunk");
-	public static final Shader SKYBOX = new Shader("skybox");
+	public static Shader CHUNK = new Shader("chunk");
+	public static Shader SKYBOX = new Shader("skybox");
 	
-	static{
+	public int program,vs,fs;
+	
+	public static void CreateShaders() {
+		CHUNK = new Shader("chunk");
+		SKYBOX = new Shader("skybox");
+		
 		glBindAttribLocation(Shader.CHUNK.program, 0, "vert");
 		glBindAttribLocation(Shader.CHUNK.program, 1, "vertTexCoord");
 	}
-	
-	public int program,vs,fs;
 	
 	public Shader(String filename) {
 		program = glCreateProgram();
@@ -56,11 +59,11 @@ public class Shader {
 		}
 	}
 	
-	public void setUniform(String name, float v) {
+	public void setUniformf(String name, float v) {
 		glUniform1f(glGetUniformLocation(program, name), v);
 	}
 
-	public void setUniform(String name, int i) {
+	public void setUniformi(String name, int i) {
 		glUniform1i(glGetUniformLocation(program, name), i);
 	}
 	

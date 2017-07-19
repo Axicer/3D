@@ -59,69 +59,9 @@ public class Chunk{
 	public void createChunk(){
 		buffer_v = BufferUtils.createFloatBuffer(SIZE*MAX_BUILD_HEIGHT*SIZE*6*4*3);
 		buffer_t = BufferUtils.createFloatBuffer(SIZE*MAX_BUILD_HEIGHT*SIZE*6*4*2);
-		for(int x = 0 ; x < SIZE ; x++){
-			for(int y = 0 ; y < MAX_BUILD_HEIGHT ; y++){
-				for(int z = 0 ; z < SIZE ; z++){
-					int xx = this.x * SIZE + x;
-					int yy = y;
-					int zz = this.z * SIZE + z;
-					
-					boolean up = world.getBlock(xx, yy+1, zz) != null;
-					boolean down = world.getBlock(xx, yy-1, zz) != null;
-					boolean left = world.getBlock(xx-1, yy, zz) != null;
-					boolean right = world.getBlock(xx+1, yy, zz) != null;
-					boolean front = world.getBlock(xx, yy, zz-1) != null;
-					boolean back = world.getBlock(xx, yy, zz+1) != null;
-					
-					if(up && down && left && right && front && back)continue;
-					if(blocks[x][y][z] == null)continue;
-					
-					Block block = blocks[x][y][z];
-					
-					int size = 0;
-					if(!up){
-						buffer_v.put(block.faceUpData(xx, yy, zz));
-						buffer_t.put(block.faceUpTexData(xx, yy, zz));
-						size++;
-					}
-					if(!down){
-						buffer_v.put(block.faceDownData(xx, yy, zz));
-						buffer_t.put(block.faceDownTexData(xx, yy, zz));
-						size++;
-					}
-					if(!left){
-						buffer_v.put(block.faceLeftData(xx, yy, zz));
-						buffer_t.put(block.faceLeftTexData(xx, yy, zz));
-						size++;
-					}
-					if(!right){
-						buffer_v.put(block.faceRightData(xx, yy, zz));
-						buffer_t.put(block.faceRightTexData(xx, yy, zz));
-						size++;
-					}
-					if(!front){
-						buffer_v.put(block.faceFrontData(xx, yy, zz));
-						buffer_t.put(block.faceFrontTexData(xx, yy, zz));
-						size++;
-					}
-					if(!back){
-						buffer_v.put(block.faceBackData(xx, yy, zz));
-						buffer_t.put(block.faceBackTexData(xx, yy, zz));
-						size++;
-					}
-
-					bufferSize += size*4;
-				}
-			}
-		}
-		buffer_v.flip();
-		buffer_t.flip();
 		vbo_v = glGenBuffers();
-		glBindBuffer(GL_ARRAY_BUFFER, vbo_v);
-		glBufferData(GL_ARRAY_BUFFER, buffer_v, GL_STATIC_DRAW);
 		vbo_t = glGenBuffers();
-		glBindBuffer(GL_ARRAY_BUFFER, vbo_t);
-		glBufferData(GL_ARRAY_BUFFER, buffer_t, GL_STATIC_DRAW);
+		updateChunk();
 	}
 	public void updateChunk(){
 		buffer_v.clear();
@@ -149,45 +89,45 @@ public class Chunk{
 					int size = 0;
 					if(!up){
 						buffer_v.put(block.faceUpData(xx, yy, zz));
-						buffer_t.put(block.faceUpTexData(xx, yy, zz));
+						buffer_t.put(block.faceUpTexData());
 						size++;
 					}
 					if(!down){
 						buffer_v.put(block.faceDownData(xx, yy, zz));
-						buffer_t.put(block.faceDownTexData(xx, yy, zz));
+						buffer_t.put(block.faceDownTexData());
 						size++;
 					}
 					if(!left){
 						buffer_v.put(block.faceLeftData(xx, yy, zz));
-						buffer_t.put(block.faceLeftTexData(xx, yy, zz));
+						buffer_t.put(block.faceLeftTexData());
 						size++;
 					}
 					if(!right){
 						buffer_v.put(block.faceRightData(xx, yy, zz));
-						buffer_t.put(block.faceRightTexData(xx, yy, zz));
+						buffer_t.put(block.faceRightTexData());
 						size++;
 					}
 					if(!front){
 						buffer_v.put(block.faceFrontData(xx, yy, zz));
-						buffer_t.put(block.faceFrontTexData(xx, yy, zz));
+						buffer_t.put(block.faceFrontTexData());
 						size++;
 					}
 					if(!back){
 						buffer_v.put(block.faceBackData(xx, yy, zz));
-						buffer_t.put(block.faceBackTexData(xx, yy, zz));
+						buffer_t.put(block.faceBackTexData());
 						size++;
 					}
 					
-					bufferSize += size*4;
+					bufferSize += size * 4;
 				}
 			}
 		}
 		buffer_v.flip();
 		buffer_t.flip();
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_v);
-		glBufferData(GL_ARRAY_BUFFER, buffer_v, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, buffer_v, GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_t);
-		glBufferData(GL_ARRAY_BUFFER, buffer_t, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, buffer_t, GL_DYNAMIC_DRAW);
 	}
 	
 	public Block getHighestBlock(int x, int z){
@@ -276,7 +216,7 @@ public class Chunk{
 	
 	public void render(){
 		Shader.CHUNK.bind();
-		Shader.CHUNK.setUniform("sampler", 0);
+		Shader.CHUNK.setUniformi("sampler", 0);
 		TextureManager.envTexture.bind(0);
 
 		glEnableVertexAttribArray(0);
@@ -285,7 +225,7 @@ public class Chunk{
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_v);
 		glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_t);
-		glVertexAttribPointer(1, 2, GL_FLOAT, true, 0, 0);
+		glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
 		
 		glDrawArrays(GL_QUADS, 0, bufferSize);
 		

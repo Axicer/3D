@@ -1,12 +1,19 @@
 package fr.axicer.main;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import fr.axicer.main.game.Game;
 import fr.axicer.main.game.inputs.Inputs;
 import fr.axicer.main.util.render.DisplayManager;
+import fr.axicer.main.util.render.Shader;
 import fr.axicer.main.util.render.SkyBox;
+import fr.axicer.main.util.render.TextureManager;
 
 public class Main {
 	
@@ -21,7 +28,6 @@ public class Main {
 	
 	public void start(){
 		running = true;
-		game = new Game();
 		String bottom = "/tex/cubemap/bottomSide.png";
 		String up = "/tex/cubemap/topSide.png";
 		String left = "/tex/cubemap/leftSide.png";
@@ -30,6 +36,18 @@ public class Main {
 		String back = "/tex/cubemap/backSide.png";
 		
 		skybox = new SkyBox(new String[]{left,right,up,bottom,back,front});
+		try {
+			BufferedImage image = ImageIO.read(TextureManager.class.getResourceAsStream("/tex/env.png"));
+			TextureManager.envTexture = TextureManager.loadTexture(image);
+			TextureManager.envWidth = image.getWidth();
+			TextureManager.envHeight = image.getHeight();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Shader.CreateShaders();
+		
+		game = new Game();
 		loop();
 	}
 	

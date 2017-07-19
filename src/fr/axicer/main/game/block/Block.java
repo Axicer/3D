@@ -1,6 +1,9 @@
 package fr.axicer.main.game.block;
 
+import org.lwjgl.util.vector.Vector2f;
+
 import fr.axicer.main.game.Chunk;
+import fr.axicer.main.util.datas.Vector2D;
 import fr.axicer.main.util.render.TextureManager;
 
 public class Block{
@@ -75,12 +78,15 @@ public class Block{
 
 	}
 
-	public float[] faceFrontTexData(int x, int y, int z){
+	public float[] faceFrontTexData(){
+		float cellX = (1.0f / TextureManager.envWidth) * 16.0f;
+		float cellY = (1.0f / TextureManager.envHeight) * 16.0f;
+		Vector2f uv = type.getFront();
 		return new float[]{
-				(float) ((type.getFront().x+0f)/TextureManager.envWidth), (float) ((type.getFront().y+0f)/TextureManager.envHeight),
-				(float) ((type.getFront().x+1f)/TextureManager.envWidth), (float) ((type.getFront().y+0f)/TextureManager.envHeight),
-				(float) ((type.getFront().x+1f)/TextureManager.envWidth), (float) ((type.getFront().y+1f)/TextureManager.envHeight),
-				(float) ((type.getFront().x+0f)/TextureManager.envWidth), (float) ((type.getFront().y+1f)/TextureManager.envHeight)
+				uv.x * cellX,			uv.y * cellY + cellY,
+				uv.x * cellX + cellX,	uv.y * cellY + cellY,
+				uv.x * cellX + cellX,	uv.y * cellY,
+				uv.x * cellX,			uv.y * cellY,
 			};
 	}
 	public float[] faceFrontData(int x, int y, int z){
@@ -92,12 +98,15 @@ public class Block{
 			x+s,y+s,z
 		};
 	}
-	public float[] faceBackTexData(int x, int y, int z){
+	public float[] faceBackTexData(){
+		float cellX = (1.0f / TextureManager.envWidth) * 16.0f;
+		float cellY = (1.0f / TextureManager.envHeight) * 16.0f;
+		Vector2f uv = type.getBack();
 		return new float[]{
-				(float) ((type.getBack().x+0f)/TextureManager.envWidth), (float) ((type.getBack().y+0f)/TextureManager.envHeight),
-				(float) ((type.getBack().x+1f)/TextureManager.envWidth), (float) ((type.getBack().y+0f)/TextureManager.envHeight),
-				(float) ((type.getBack().x+1f)/TextureManager.envWidth), (float) ((type.getBack().y+1f)/TextureManager.envHeight),
-				(float) ((type.getBack().x+0f)/TextureManager.envWidth), (float) ((type.getBack().y+1f)/TextureManager.envHeight)
+				uv.x * cellX,			uv.y * cellY + cellY,
+				uv.x * cellX + cellX,	uv.y * cellY + cellY,
+				uv.x * cellX + cellX,	uv.y * cellY,
+				uv.x * cellX,			uv.y * cellY,
 			};
 	}
 	public float[] faceBackData(int x, int y, int z){
@@ -109,13 +118,16 @@ public class Block{
 			x,	y+s,z+s
 		};
 	}
-	public float[] faceDownTexData(int x, int y, int z){
+	public float[] faceDownTexData(){
+		float cellX = (1.0f / TextureManager.envWidth) * 16.0f;
+		float cellY = (1.0f / TextureManager.envHeight) * 16.0f;
+		Vector2f uv = type.getDown();
 		return new float[]{
-			(float) ((type.getDown().x+0f)/TextureManager.envWidth), (float) ((type.getDown().y+0f)/TextureManager.envHeight),
-			(float) ((type.getDown().x+1f)/TextureManager.envWidth), (float) ((type.getDown().y+0f)/TextureManager.envHeight),
-			(float) ((type.getDown().x+1f)/TextureManager.envWidth), (float) ((type.getDown().y+1f)/TextureManager.envHeight),
-			(float) ((type.getDown().x+0f)/TextureManager.envWidth), (float) ((type.getDown().y+1f)/TextureManager.envHeight)
-		};
+				uv.x * cellX,			uv.y * cellY,
+				uv.x * cellX + cellX,	uv.y * cellY,
+				uv.x * cellX + cellX,	uv.y * cellY + cellY,
+				uv.x * cellX,			uv.y * cellY + cellY
+			};
 	}
 	public float[] faceDownData(int x, int y, int z){
 		float s = 1;
@@ -126,13 +138,16 @@ public class Block{
 			x,	y,	z+s
 		};
 	}
-	public float[] faceUpTexData(int x, int y, int z){
+	public float[] faceUpTexData(){
+		float cellX = (1.0f / TextureManager.envWidth) * 16.0f;
+		float cellY = (1.0f / TextureManager.envHeight) * 16.0f;
+		Vector2f uv = type.getUp();
 		return new float[]{
-			(float) ((type.getUp().x+0f)/TextureManager.envWidth), (float) ((type.getUp().y+0f)/TextureManager.envHeight),
-			(float) ((type.getUp().x+1f)/TextureManager.envWidth), (float) ((type.getUp().y+0f)/TextureManager.envHeight),
-			(float) ((type.getUp().x+1f)/TextureManager.envWidth), (float) ((type.getUp().y+1f)/TextureManager.envHeight),
-			(float) ((type.getUp().x+0f)/TextureManager.envWidth), (float) ((type.getUp().y+1f)/TextureManager.envHeight)
-		};
+				uv.x * cellX,			uv.y * cellY,
+				uv.x * cellX + cellX,	uv.y * cellY,
+				uv.x * cellX + cellX,	uv.y * cellY + cellY,
+				uv.x * cellX,			uv.y * cellY + cellY
+			};
 	}
 	public float[] faceUpData(int x, int y, int z){
 		float s = 1;
@@ -143,13 +158,16 @@ public class Block{
 			x+s,y+s,z+s
 		};
 	}
-	public float[] faceLeftTexData(int x, int y, int z){
+	public float[] faceLeftTexData(){
+		float cellX = (1.0f / TextureManager.envWidth) * 16.0f;
+		float cellY = (1.0f / TextureManager.envHeight) * 16.0f;
+		Vector2f uv = type.getLeft();
 		return new float[]{
-			(float) ((type.getLeft().x+0f)/TextureManager.envWidth), (float) ((type.getLeft().y+0f)/TextureManager.envHeight),
-			(float) ((type.getLeft().x+1f)/TextureManager.envWidth), (float) ((type.getLeft().y+0f)/TextureManager.envHeight),
-			(float) ((type.getLeft().x+1f)/TextureManager.envWidth), (float) ((type.getLeft().y+1f)/TextureManager.envHeight),
-			(float) ((type.getLeft().x+0f)/TextureManager.envWidth), (float) ((type.getLeft().y+1f)/TextureManager.envHeight)
-		};
+				uv.x * cellX,			uv.y * cellY,
+				uv.x * cellX,			uv.y * cellY + cellY,
+				uv.x * cellX + cellX,	uv.y * cellY + cellY,
+				uv.x * cellX + cellX,	uv.y * cellY,
+			};
 	}
 	public float[] faceLeftData(int x, int y, int z){
 		float s = 1;
@@ -160,13 +178,16 @@ public class Block{
 			x,	y+s,z+s
 		};
 	}
-	public float[] faceRightTexData(int x, int y, int z){
+	public float[] faceRightTexData(){
+		float cellX = (1.0f / TextureManager.envWidth) * 16.0f;
+		float cellY = (1.0f / TextureManager.envHeight) * 16.0f;
+		Vector2f uv = type.getRight();
 		return new float[]{
-			(float) ((type.getRight().x+0f)/TextureManager.envWidth), (float) ((type.getRight().y+0f)/TextureManager.envHeight),
-			(float) ((type.getRight().x+1f)/TextureManager.envWidth), (float) ((type.getRight().y+0f)/TextureManager.envHeight),
-			(float) ((type.getRight().x+1f)/TextureManager.envWidth), (float) ((type.getRight().y+1f)/TextureManager.envHeight),
-			(float) ((type.getRight().x+0f)/TextureManager.envWidth), (float) ((type.getRight().y+1f)/TextureManager.envHeight)
-		};
+				uv.x * cellX + cellX,	uv.y * cellY + cellY,
+				uv.x * cellX + cellX,	uv.y * cellY,
+				uv.x * cellX,			uv.y * cellY,
+				uv.x * cellX,			uv.y * cellY + cellY,
+			};
 	}
 	public float[] faceRightData(int x, int y, int z){
 		float s = 1;

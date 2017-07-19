@@ -18,7 +18,7 @@ public class DisplayManager {
 			glEnable(GL_CULL_FACE);
 			glEnable(GL_FRONT);
 			glEnable(GL_TEXTURE_2D);
-			glEnable(GL_SRC_ALPHA);
+			//glEnable(GL_SRC_ALPHA);
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
