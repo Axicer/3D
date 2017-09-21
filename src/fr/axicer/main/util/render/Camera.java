@@ -16,7 +16,7 @@ import fr.axicer.main.util.datas.Vector3D;
 
 public class Camera {
 	
-	public static boolean debug = false;
+	public static boolean debug = true;
 	public static float fov = 70.0f;
 	public Player player;
 	private double xa,ya,za;
